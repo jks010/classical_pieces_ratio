@@ -8,3 +8,6 @@ So I've wrote a little script to check if a classical piece has more ink than bl
 
 Ex : Python ratio.py PaganiniCaprice.jpg
 
+updated: 
+ better performance, old script was a bit slow(1~2 seconds), the new runs faster (~0.5 seconds)
+
