@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
-import sys
-
+import sys, time
 def main(tes):
+    start_time = time.time()
     img = cv2.imread(''+tes+'')
     	 
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -15,50 +15,34 @@ def main(tes):
     mask = cv2.inRange(hsv,lower, upper)
     target = cv2.bitwise_and(img,img, mask=mask)
     
-    cv2.imshow("Piece", target)
+    #cv2.imshow("Piece", target)
     
-    #Count how many of each pixel , eg : Black & White Ratio
-    cv2.waitKey(0)
+    #cv2.waitKey(0)
     
-    #img[img!= 0] = 0
     
-    #print(target[767,1023])
     
+    total = np.prod(target.shape)
+    x = np.reshape(target, (total,))
     
     np.set_printoptions(threshold=np.inf)
     
-    a = np.any(target == [0, 0, 0], axis=-1)
-    
-    contador_w = 0
-    contador_b = 0
-    
-    for row in range(0,target.shape[0]):
-        for col in range (0,target.shape[1]):
-        	if a[row,col] == True:
-        		contador_b+=1
-        		#print (row,col)
-        		#print(target[row,col], row, col)
-        	else:
-        		contador_w+=1	
     
     
-    #print(contador)
-    #print(img.shape)
+    x.sort()
     
     
-    #TOTAL BLACK  1681
-    #TOTAL PIXELS 22033
-    #TOTAL WHITE  3406
+    i = total-1
+    contei = 0
+    while (i >0):
+        if(x[i]==0):
+            contei=i
+            break
+        i = i-200
     
-    black = contador_b*100	
+    gg =  total - contei
+    print(round((contei*100)/total),"%")
+    print("--- %.3s seconds ---" % (time.time() - start_time))
     
-    total = contador_w + contador_b
-    
-    print(black)
-    print(total)
-    
-    print("B&W Ratio : ", round(black/total),"%")
-
 
 if __name__ ==  "__main__":   
     main(sys.argv[1])
